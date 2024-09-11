@@ -1,69 +1,37 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+import { EASE } from './features/easings/easing'
+import createScrollTrigger from './features/helpers/createScrollTrigger'
+
 gsap.registerPlugin(ScrollTrigger)
 
 function global() {
-  // START
-  const menuToggle = document.querySelector('.menu-icon')
+  const headings = document.querySelectorAll('.heading_component')
 
-  menuToggle.addEventListener('click', () => {
-    document.querySelector('.w-nav-overlay').addEventListener('click', () => {
-      console.log('yup')
-      window.SScroll.call.start()
-    })
-  })
-
-  const addActiveClassToNav = () => {
-    // Select the navbar
-    const navbarBg = document.querySelector('.nav_background')
-
-    // Ensure the element exists
-    if (!navbarBg) {
-      console.log('Navbar background not found')
-      return
-    }
-
-    // Function to toggle 'is-active' class based on scroll position
-    function toggleNavbarClass() {
-      if (window.scrollY > 40) {
-        navbarBg.classList.add('is-active')
-      } else {
-        navbarBg.classList.remove('is-active')
-      }
-    }
-
-    // Attach the scroll event listener to the window
-    window.addEventListener('scroll', toggleNavbarClass)
-
-    //
-    let initialDirection = false
-
-    // Scroll Direction
-    ScrollTrigger.create({
-      trigger: '.page-wrapper',
-      start: 'top -800px',
-      end: 'bottom bottom',
-      onUpdate: (self) => {
-        if (self.direction !== self.prevDirection) {
-          if (initialDirection === false) {
-            initialDirection = true
-            self.direction = -1
-          }
-
-          gsap.to('.nav_component', {
-            y: `${self.direction === -1 ? '0%' : '-100%'}`,
-            duration: 0.6,
-            ease: 'Quart.easeOut',
-          })
-
-          self.prevDirection = self.direction
-        }
+  headings.forEach((heading) => {
+    let tl = gsap.timeline({ paused: true })
+    tl.from(
+      heading.querySelector('.divider'),
+      {
+        scaleX: 0,
+        duration: 2,
+        ease: EASE,
       },
-    })
-  }
+      0
+    )
+    tl.from(
+      heading.querySelector('.tagline'),
+      {
+        yPercent: 100,
+        duration: 1.5,
+        ease: EASE,
+      },
+      0
+    )
 
-  addActiveClassToNav()
+    createScrollTrigger(heading, tl, 'top bottom')
+  })
 }
 
 export default global
