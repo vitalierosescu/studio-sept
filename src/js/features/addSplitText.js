@@ -56,8 +56,6 @@ function addSplitText() {
 
   const hoverText = () => {
     const spans = document.querySelectorAll('.quote-span')
-    // const images = document.querySelectorAll('.quote_img')
-    console.log(spans)
 
     spans.forEach((span, index) => {
       span.addEventListener('mouseover', () => {

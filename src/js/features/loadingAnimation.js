@@ -1,7 +1,7 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-import { EASE } from './easings/easing'
+import { EASE } from '../easings/easing'
 EASE
 
 gsap.registerPlugin(ScrollTrigger)
@@ -46,7 +46,7 @@ function loadingAnimation() {
         setTimeout(() => {
           gsap.to(counterElement, {
             y: -20,
-            duration: 1,
+            duration: 0.5,
             ease: 'power3.inOut',
             onStart: () => {
               revealLandingPage()
@@ -61,7 +61,7 @@ function loadingAnimation() {
 
   gsap.to('.counter p', {
     y: 0,
-    duration: 1,
+    duration: 0.5,
     ease: 'power3.out',
     delay: 0.2,
     onComplete: () => {

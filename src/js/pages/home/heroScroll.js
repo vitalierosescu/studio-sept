@@ -18,12 +18,7 @@ function heroScroll() {
   }
   let triggers = component.find("[tr-scroll-toggle='trigger']")
   firstTrigger.css('margin-top', '-100vh')
-  let trSpacer = $(
-    "<div class='tr-scroll-toggle-spacer' style='width: 100%; height: 100vh;'></div>"
-  )
-    .hide()
-    .appendTo(component)
-  // check for min width
+
   let minWidth = 0
   let trMinWidth = component.attr('tr-min-width')
   if (trMinWidth !== undefined && trMinWidth !== false) {
@@ -31,9 +26,6 @@ function heroScroll() {
   }
   // main breakpoint
   gsap.matchMedia().add(`(min-width: ${minWidth}px)`, () => {
-    // show spacer
-    trSpacer.show()
-    // switch which item is active
     function makeItemActive(activeIndex) {
       component
         .find("[tr-scroll-toggle='transform-y']")
@@ -93,9 +85,29 @@ function heroScroll() {
 
     tlH1.fromTo('.hero_svg', { x: '-20vw' }, { x: '20vw' })
 
+    let tlBotttom = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.section_hero-container',
+        start: 'center top',
+        end: 'bottom top',
+        scrub: true,
+      },
+      defaults: {
+        ease: 'none',
+      },
+    })
+
+    tlBotttom.fromTo('.div-hide.is-bottom-left', { x: '0vw' }, { x: '-30vw' })
+    tlBotttom.fromTo(
+      '.div-hide.is-bottom-right',
+      { x: '0vw' },
+      { x: '30vw' },
+      0
+    )
+
     // smaller screen sizes
     return () => {
-      trSpacer.hide()
+      // trSpacer.hide()
       component
         .find("[tr-scroll-toggle='transform-y']")
         .css('transform', 'translateY(0%)')
