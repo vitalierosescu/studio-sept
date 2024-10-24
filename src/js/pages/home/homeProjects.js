@@ -12,18 +12,14 @@ function homeProjects() {
 
   let tl = gsap.timeline({ paused: true })
 
-  tl.fromTo(
-    '.home-project_wrap',
-    { clipPath: 'polygon(15% 85%, 85% 85%, 85% 85%, 15% 85%);' },
-    {
-      clipPath: 'polygon(15% 15%, 85% 15%, 85% 85%, 15% 85%)',
-      duration: 1,
-      ease: 'quart4.out',
-      stagger: {
-        amount: 0.1,
-      },
-    }
-  )
+  tl.to('.home-project_wrap', {
+    clipPath: 'polygon(15% 15%, 85% 15%, 85% 85%, 15% 85%)',
+    duration: 1,
+    ease: 'quart4.out',
+    stagger: {
+      amount: 0.1,
+    },
+  })
 
   tl.to('.home-project_wrap', {
     ease: 'quart4.out',

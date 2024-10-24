@@ -20,32 +20,33 @@ MouseFollower.registerGSAP(gsap)
 function main() {
   global()
 
-  const cursor = new MouseFollower({
-    speed: 0.8,
-    skewing: 1,
-    skewingText: 3,
-    visible: true,
-    visibleOnState: true,
-  })
+  // const cursor = new MouseFollower({
+  //   speed: 0.8,
+  //   skewing: 1,
+  //   skewingText: 3,
+  //   visible: true,
+  //   visibleOnState: true,
+  // })
 
-  const startCursor = () => {
-    const cursorElements = [...document.querySelectorAll('[data-cursor]')]
-    cursorElements.forEach(function (element) {
-      element.addEventListener('mouseenter', () => {
-        cursor.setText(element.dataset.cursor)
-      })
+  // const startCursor = () => {
+  //   const cursorElements = [...document.querySelectorAll('[data-cursor]')]
+  //   cursorElements.forEach(function (element) {
+  //     element.addEventListener('mouseenter', () => {
+  //       cursor.setText(element.dataset.cursor)
+  //     })
 
-      element.addEventListener('mouseleave', () => {
-        cursor.removeText()
-      })
-    })
-  }
+  //     element.addEventListener('mouseleave', () => {
+  //       cursor.removeText()
+  //     })
+  //   })
+  // }
 
   let lenis
 
   let $home = document.querySelector('[data-barba-namespace="home"]')
   let $case = document.querySelector('[data-barba-namespace="case"]')
   let $overview = document.querySelector('[data-barba-namespace="overview"]')
+  // let $contact = document.querySelector('[data-barba-namespace="contact"]')
 
   if ($home) {
     home()
@@ -96,11 +97,18 @@ function main() {
     })
     startLenis()
 
-    startCursor()
+    // startCursor()
   }
   init()
 
   barba.hooks.after((data) => {
+    lenis.start()
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true })
+    } else {
+      window.scrollTo(0, 0)
+    }
+
     $home = document.querySelector('[data-barba-namespace="home"]')
     $case = document.querySelector('[data-barba-namespace="case"]')
     $overview = document.querySelector('[data-barba-namespace="overview"]')
@@ -111,40 +119,33 @@ function main() {
     } else if ($overview) {
       overview()
     }
-    lenis.resize()
-    lenis.start()
-    setTimeout(() => {
-      lenis.resize()
-    }, 1000)
+
     resetWebflow(data)
   })
 
-  barba.hooks.beforeEnter(() => {
-    lenis.start()
-    lenis.scrollTo(0, { lerp: 0.05, lock: true, immediate: true })
-  })
+  barba.hooks.beforeEnter(() => {})
 
   barba.init({
-    preventRunning: true,
     transitions: [
       {
         name: 'default-transition',
-        once: () => {
-          startLenis()
-        },
         async leave({ current }) {
           lenis.stop()
-          cursor.destroy()
+          // cursor.destroy()
           await leaveTransition(current.container)
-          // global()
         },
         enter({ next }) {
+          // lenis.start()
+          lenis.resize()
           lenis.start()
+          setTimeout(() => {
+            lenis.resize()
+          }, 1000)
           enterTransition(next.container)
         },
         afterEnter() {
-          cursor.init()
-          startCursor()
+          // cursor.init()
+          // startCursor()
         },
       },
     ],
@@ -157,42 +158,6 @@ function main() {
       },
     ],
   })
-
-  // barba.hooks.beforeEnter(() => {
-  //   lenis.start()
-  //   lenis.scrollTo(0, { lerp: 0.05, lock: true, immediate: true })
-  // })
-  // barba.hooks.after((data) => {
-  //   $home = document.querySelector('[data-barba-namespace="home"]')
-  //   if ($home) {
-  //     home()
-  //   }
-  //   lenis.resize()
-  //   lenis.start()
-  //   setTimeout(() => {
-  //     lenis.resize()
-  //   }, 1000)
-  //   resetWebflow(data)
-  // })
-
-  // barba.init({
-  //   preventRunning: true,
-  //   transitions: [
-  //     {
-  //       // sync: true,
-  //       once: () => {
-  //         startLenis()
-  //       },
-  //       enter({ next }) {
-  //         enterTransition(next.container)
-  //       },
-  //       leave({ current }) {
-  //         lenis.stop()
-  //         leaveTransition(current.container)
-  //       },
-  //     },
-  //   ],
-  // })
 }
 
 main()

@@ -9,12 +9,11 @@ export const enterTransition = (nextContainer) => {
   gsap.to('.transition', {
     height: '0%',
     duration: 1,
+    delay: 0.3,
   })
 
   gsap.from(nextContainer, {
     duration: 1,
-    scale: 0.98,
-    y: '+=80',
   })
 
   $('body').css('cursor', 'default')
@@ -42,8 +41,6 @@ export const leaveTransition = async (currentContainer) => {
   })
 
   await gsap.to(currentContainer, {
-    scale: 0.98,
-    y: '+=80',
     duration: 1,
     onComplete: () => {},
   })

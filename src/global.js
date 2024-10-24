@@ -1,10 +1,11 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-// import Lenis from 'lenis'
+import $ from 'jquery'
 
 import { EASE } from './js/easings/easing'
 import nav from './js/features/nav'
 import createScrollTrigger from './js/helpers/createScrollTrigger'
+import marqueeServices from '../src/js/features/marqueeServices'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -42,28 +43,28 @@ function global() {
     createScrollTrigger(item, tl, 'top bottom')
   })
 
-  const animateFooter = () => {
-    const footerWrap = document.querySelector('.footer_wrap')
+  function animateFooter() {
+    var footerWrap = $('.footer_wrap')
 
-    gsap
-      .timeline({
-        defaults: {
-          ease: 'none',
-        },
-        scrollTrigger: {
-          trigger: footerWrap,
-          start: 'top bottom',
-          end: 'bottom bottom',
-          scrub: true,
-        },
-      })
-      .fromTo(
-        '.footer_component',
-        {
-          y: '-60vh',
-        },
-        { y: '0vh' }
-      )
+    let tl = gsap.timeline({
+      defaults: {
+        ease: 'none',
+      },
+      scrollTrigger: {
+        trigger: footerWrap,
+        start: 'top bottom',
+        end: 'bottom bottom',
+        scrub: true,
+      },
+    })
+
+    tl.fromTo(
+      footerWrap.find('.footer_component'),
+      {
+        y: '-60vh',
+      },
+      { y: '0vh' }
+    )
   }
 
   const displayTime = () => {
@@ -84,6 +85,7 @@ function global() {
     setInterval(displayTime, 1000)
     animateFooter()
     nav()
+    marqueeServices()
   }
   init()
 }

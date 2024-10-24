@@ -1,10 +1,9 @@
 import gsap from 'gsap'
-// import { Observer } from 'gsap/Observer'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-function homeMarquee() {
+function marqueeServices() {
   let tl = gsap.timeline({
     repeat: -1,
     onReverseComplete: () => {
@@ -24,4 +23,4 @@ function homeMarquee() {
   )
 }
 
-export default homeMarquee
+export default marqueeServices

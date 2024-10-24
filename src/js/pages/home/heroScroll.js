@@ -55,6 +55,7 @@ function heroScroll() {
           start: 'top top',
           end: 'bottom top',
           scrub: true,
+          immediateRender: false,
           onToggle: ({ isActive }) => {
             if (isActive) {
               makeItemActive(triggerIndex)
