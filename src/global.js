@@ -3,6 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import $ from 'jquery'
 
 import { EASE } from './js/easings/easing'
+import customMouse from './js/features/customMouse'
 import nav from './js/features/nav'
 import createScrollTrigger from './js/helpers/createScrollTrigger'
 import marqueeServices from '../src/js/features/marqueeServices'
@@ -86,6 +87,7 @@ function global() {
     animateFooter()
     nav()
     marqueeServices()
+    customMouse()
   }
   init()
 }

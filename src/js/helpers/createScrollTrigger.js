@@ -8,10 +8,10 @@ function createScrollTrigger(triggerElement, timeline, startAnimation) {
   ScrollTrigger.create({
     trigger: triggerElement,
     start: 'top bottom',
-    onLeaveBack: () => {
-      timeline.progress(0)
-      timeline.pause()
-    },
+    // onLeaveBack: () => {
+    //   timeline.progress(0)
+    //   timeline.pause()
+    // },
   })
   // Play tl when scrolled into view (20% offset)
   ScrollTrigger.create({

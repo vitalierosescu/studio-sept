@@ -8,8 +8,6 @@ gsap.registerPlugin(ScrollTrigger)
 function homeProjects() {
   const wrap = document.querySelector('.home-project_list')
 
-  // const images = document.querySelectorAll('.home-project_wrap')
-
   let tl = gsap.timeline({ paused: true })
 
   tl.to('.home-project_wrap', {
@@ -28,20 +26,30 @@ function homeProjects() {
   })
   createScrollTrigger(wrap, tl, 'top 88%')
 
-  // images.forEach(function (element) {
-  //   let tl = gsap.timeline({ paused: true })
+  const cases = [...document.querySelectorAll('.home-project_wrap')]
 
-  //   tl.from(element.querySelectorAll('.home-project_img-hover'), {
-  //     xPercent: 100,
-  //     duration: 1.2,
-  //     stagger: {
-  //       amount: 0.2,
-  //     },
-  //   })
+  cases.forEach(function (el) {
+    const tl = gsap.timeline({ paused: true })
 
-  //   element.addEventListener('mouseenter', () => tl.play())
-  //   element.addEventListener('mouseleave', () => tl.reverse())
-  // })
+    tl.fromTo(
+      el.querySelector('.home-project_img.is-clipped'),
+      { clipPath: 'polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)' },
+      {
+        duration: 1.2,
+        ease: 'power4.out',
+        clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+      }
+    )
+
+    el.addEventListener('mouseenter', () => {
+      tl.timeScale(1)
+      tl.play()
+    })
+    el.addEventListener('mouseleave', () => {
+      tl.timeScale(1.75)
+      tl.reverse()
+    })
+  })
 }
 
 export default homeProjects
