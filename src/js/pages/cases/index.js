@@ -1,6 +1,7 @@
 import gsap from 'gsap'
 
 import addSplitText from '../../features/addSplitText'
+import homeProjects from '../home/homeProjects'
 
 function cases() {
   addSplitText()
@@ -72,6 +73,30 @@ function cases() {
   }
 
   animateHero()
+  homeProjects()
+
+  // Get the relevant part of the URL (e.g., "/cases/andremare")
+  const pageSlug = window.location.pathname.replace(/\/$/, '') // Remove trailing slash if present
+
+  // Ensure we are on a /cases/ page before running the script
+  if (!pageSlug.startsWith('/cases/')) return
+
+  // Loop over all elements with class ".home-project_wrap"
+  document.querySelectorAll('.home-project_wrap').forEach((projectWrap) => {
+    const link = projectWrap.querySelector('.link-cover')
+
+    if (link && link.href && link.getAttribute('href') !== '#') {
+      const linkPath = new URL(
+        link.href,
+        window.location.origin
+      ).pathname.replace(/\/$/, '') // Normalize path
+
+      // Check if the link is also within /cases/ and matches the page slug exactly
+      if (linkPath.startsWith('/cases/') && pageSlug === linkPath) {
+        projectWrap.style.display = 'none' // Hide the element
+      }
+    }
+  })
 }
 
 export default cases

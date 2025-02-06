@@ -79,7 +79,9 @@ function global() {
       hours = 12 // Midnight case
     }
     const timeString = hours + ':' + minutes + ' ' + suffix
-    document.getElementById('time').innerText = timeString
+    document
+      .querySelectorAll('[data-time]')
+      .forEach((item) => (item.innerText = timeString))
   }
 
   const init = () => {

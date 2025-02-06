@@ -20,27 +20,6 @@ MouseFollower.registerGSAP(gsap)
 function main() {
   global()
 
-  // const cursor = new MouseFollower({
-  //   speed: 0.8,
-  //   skewing: 1,
-  //   skewingText: 3,
-  //   visible: true,
-  //   visibleOnState: true,
-  // })
-
-  // const startCursor = () => {
-  //   const cursorElements = [...document.querySelectorAll('[data-cursor]')]
-  //   cursorElements.forEach(function (element) {
-  //     element.addEventListener('mouseenter', () => {
-  //       cursor.setText(element.dataset.cursor)
-  //     })
-
-  //     element.addEventListener('mouseleave', () => {
-  //       cursor.removeText()
-  //     })
-  //   })
-  // }
-
   let lenis
 
   let $home = document.querySelector('[data-barba-namespace="home"]')
