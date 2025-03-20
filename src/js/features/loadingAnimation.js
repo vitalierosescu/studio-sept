@@ -1,28 +1,22 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Lenis from 'lenis'
 
 import { EASE } from '../easings/easing'
-EASE
 
 gsap.registerPlugin(ScrollTrigger)
+const lenis = new Lenis()
 
 function loadingAnimation() {
-  gsap.set('.nav_link', { yPercent: 100 })
+  lenis.on('scroll', ScrollTrigger.update)
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000)
+  })
+  gsap.ticker.lagSmoothing(0)
+  window.addEventListener('resize', () => lenis.resize())
 
-  function splitTextIntoSpans(selector) {
-    let elements = document.querySelectorAll(selector)
-    elements.forEach((element) => {
-      let text = element.innerText
-      let splitText = text
-        .split('')
-        .map(function (char) {
-          return `<span>${char === ' ' ? '&nbsp;&nbsp;' : char}</span>`
-        })
-        .join('')
-      element.innerHTML = splitText
-    })
-  }
-  splitTextIntoSpans('.hero_h1')
+  lenis.stop()
+  console.log('hihi')
 
   function animateCounter() {
     const counterElement = document.querySelector('.counter p')
@@ -40,6 +34,7 @@ function loadingAnimation() {
           endValue
         )
         counterElement.textContent = currentValue
+        console.log(currentValue)
         setTimeout(updateCounter, updateInterval)
       } else {
         counterElement.textContent = endValue
@@ -110,13 +105,25 @@ function loadingAnimation() {
           delay: 0.75,
         })
 
-        gsap.to('.nav_link', {
-          yPercent: 0,
-          stagger: 0.1,
-          duration: 2,
-          ease: 'power4.inOut',
-          delay: 1,
-        })
+        gsap.fromTo(
+          '.nav_link',
+          {
+            translateY: '100%',
+          },
+          {
+            translateY: '0%',
+            stagger: 0.1,
+            duration: 2,
+            ease: 'power4.inOut',
+            delay: 1,
+          }
+        )
+      },
+      onComplete: () => {
+        console.log('Landing page animation complete!')
+
+        // **START Lenis when animation ends**
+        lenis.start() // ✅ Resumes smooth scrolling
       },
     })
   }

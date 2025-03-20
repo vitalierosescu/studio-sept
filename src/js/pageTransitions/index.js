@@ -25,7 +25,7 @@ export const leaveTransition = async (currentContainer) => {
    */
   gsap.defaults({ ease: 'expo.in' })
   gsap.set('.transition', { top: 'auto', bottom: '0%' })
-  $('body').css('cursor', 'progress')
+  $('body').css('cursor', 'progress !important')
 
   gsap.to('.transition', {
     height: '100%',

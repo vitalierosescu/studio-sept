@@ -1,13 +1,14 @@
 import barba from '@barba/core'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import $ from 'jquery'
 import Lenis from 'lenis'
 import MouseFollower from 'mouse-follower'
 
 import global from './global'
 import { resetWebflow } from './js/helpers/resetWebflow'
 import cases from './js/pages/cases'
-import home from './js/pages/home/index.js'
+import home from './js/pages/home/index'
 import './styles/style.css'
 import overview from './js/pages/overview'
 import { enterTransition, leaveTransition } from './js/pageTransitions'
@@ -15,8 +16,11 @@ import { enterTransition, leaveTransition } from './js/pageTransitions'
 gsap.registerPlugin(ScrollTrigger)
 MouseFollower.registerGSAP(gsap)
 
+// Main function to determine which scripts to run
 function main() {
   global()
+
+  let lenis
 
   let $home = document.querySelector('[data-barba-namespace="home"]')
   let $case = document.querySelector('[data-barba-namespace="case"]')
@@ -30,19 +34,53 @@ function main() {
     overview()
   }
 
-  const lenis = new Lenis()
+  const startLenis = () => {
+    lenis = new Lenis({
+      lerp: 0.1,
+      wheelMultiplier: 1.0,
+      infinite: false,
+      gestureOrientation: 'vertical',
+      normalizeWheel: false,
+      smoothTouch: false,
+      autoResize: true,
+    })
 
-  lenis.on('scroll', ScrollTrigger.update)
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000)
-  })
-  gsap.ticker.lagSmoothing(0)
+    function raf(time) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
 
-  lenis.stop()
+    requestAnimationFrame(raf)
+  }
   window.addEventListener('resize', () => lenis.resize())
 
+  /** Add stop & start lenis eventlisteners */
+  $('[data-lenis-start]').on('click', function () {
+    lenis.start()
+    $('[data-lenis-toggle]').toggleClass('stop-scroll')
+  })
+  $('[data-lenis-toggle]').on('click', function () {
+    $(this).toggleClass('stop-scroll')
+    if ($(this).hasClass('stop-scroll')) {
+      lenis.stop()
+    } else {
+      lenis.start()
+    }
+  })
+  const init = () => {
+    $('a').on('click', () => {
+      if ($('[data-lenis-toggle]').hasClass('stop-scroll')) {
+        lenis.start()
+      }
+    })
+    startLenis()
+
+    // startCursor()
+  }
+  init()
+
   barba.hooks.after((data) => {
-    // lenis.start()
+    lenis.start()
     if (lenis) {
       lenis.scrollTo(0, { immediate: true })
     } else {
@@ -50,9 +88,9 @@ function main() {
     }
     lenis.stop()
 
-    let $home = document.querySelector('[data-barba-namespace="home"]')
-    let $case = document.querySelector('[data-barba-namespace="case"]')
-    let $overview = document.querySelector('[data-barba-namespace="overview"]')
+    $home = document.querySelector('[data-barba-namespace="home"]')
+    $case = document.querySelector('[data-barba-namespace="case"]')
+    $overview = document.querySelector('[data-barba-namespace="overview"]')
     if ($home) {
       home()
     } else if ($case) {
@@ -64,10 +102,7 @@ function main() {
     resetWebflow(data)
   })
 
-  barba.hooks.beforeEnter(() => {
-    console.log('beforeEnter')
-    lenis.start()
-  })
+  barba.hooks.beforeEnter(() => {})
 
   barba.init({
     transitions: [
@@ -78,13 +113,16 @@ function main() {
           await leaveTransition(current.container)
         },
         enter({ next }) {
-          enterTransition(next.container)
           setTimeout(() => {
             lenis.resize()
             lenis.start()
-          }, 500)
+          }, 3000)
+          enterTransition(next.container)
         },
-        afterEnter() {},
+        afterEnter() {
+          // cursor.init()
+          // startCursor()
+        },
       },
     ],
     views: [

@@ -6,97 +6,115 @@ import homeProjects from '../home/homeProjects'
 function cases() {
   addSplitText()
 
-  const imgWraps = document.querySelectorAll('.img-large_wrap')
-  const imgSections = document.querySelectorAll('.case-fullscreen_parent')
+  let mm = gsap.matchMedia(),
+    breakPoint = 479
 
-  imgWraps.forEach((imgWrap) => {
-    if (imgWrap) {
-      const tl = gsap.timeline({
-        defaults: {
-          ease: 'none',
-        },
-        scrollTrigger: {
-          trigger: imgWrap,
-          start: 'clamp(top bottom)',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
+  mm.add(
+    {
+      isDesktop: `(min-width: ${breakPoint}px)`,
+      isMobile: `(max-width: ${breakPoint - 1}px)`,
+    },
+    (context) => {
+      let { isDesktop, isMobile, reduceMotion } = context.conditions
+      console.log(isMobile, reduceMotion)
 
-      tl.to(imgWrap, {
-        y: '7.5rem',
-      })
-    }
-  })
+      if (isDesktop) {
+        const imgWraps = document.querySelectorAll('.img-large_wrap')
+        const imgSections = document.querySelectorAll('.case-fullscreen_parent')
 
-  imgSections.forEach((section) => {
-    if (section) {
-      const tl = gsap.timeline({
-        defaults: {
-          ease: 'none',
-        },
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
+        imgWraps.forEach((imgWrap) => {
+          if (imgWrap) {
+            const tl = gsap.timeline({
+              defaults: {
+                ease: 'none',
+              },
+              scrollTrigger: {
+                trigger: imgWrap,
+                start: 'clamp(top bottom)',
+                end: 'bottom top',
+                scrub: true,
+              },
+            })
 
-      tl.to(section, {
-        y: '25vh',
-      })
-    }
-  })
+            tl.to(imgWrap, {
+              // y: '7.5rem',
+              y: '7.5em',
+            })
+          }
+        })
 
-  // Function to animate the HERO
-  const animateHero = () => {
-    const hero = document.querySelector('.section_case-hero')
+        imgSections.forEach((section) => {
+          if (section) {
+            const tl = gsap.timeline({
+              defaults: {
+                ease: 'none',
+              },
+              scrollTrigger: {
+                trigger: section,
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true,
+              },
+            })
 
-    if (hero) {
-      const tl = gsap.timeline({
-        defaults: {
-          ease: 'none',
-        },
-        scrollTrigger: {
-          trigger: hero,
-          start: 'clamp(top bottom)',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
+            tl.to(section, {
+              y: '25vh',
+            })
+          }
+        })
 
-      tl.to(hero, {
-        yPercent: 30,
-      })
-    }
-  }
+        // Function to animate the HERO
+        const animateHero = () => {
+          const hero = document.querySelector('.section_case-hero')
 
-  animateHero()
-  homeProjects()
+          if (hero) {
+            const tl = gsap.timeline({
+              defaults: {
+                ease: 'none',
+              },
+              scrollTrigger: {
+                trigger: hero,
+                start: 'clamp(top bottom)',
+                end: 'bottom top',
+                scrub: true,
+              },
+            })
 
-  // Get the relevant part of the URL (e.g., "/cases/andremare")
-  const pageSlug = window.location.pathname.replace(/\/$/, '') // Remove trailing slash if present
+            tl.to(hero, {
+              yPercent: 30,
+            })
+          }
+        }
 
-  // Ensure we are on a /cases/ page before running the script
-  if (!pageSlug.startsWith('/cases/')) return
-
-  // Loop over all elements with class ".home-project_wrap"
-  document.querySelectorAll('.home-project_wrap').forEach((projectWrap) => {
-    const link = projectWrap.querySelector('.link-cover')
-
-    if (link && link.href && link.getAttribute('href') !== '#') {
-      const linkPath = new URL(
-        link.href,
-        window.location.origin
-      ).pathname.replace(/\/$/, '') // Normalize path
-
-      // Check if the link is also within /cases/ and matches the page slug exactly
-      if (linkPath.startsWith('/cases/') && pageSlug === linkPath) {
-        projectWrap.style.display = 'none' // Hide the element
+        animateHero()
+        homeProjects()
+      } else {
+        //
       }
+      // Get the relevant part of the URL (e.g., "/cases/andremare")
+      const pageSlug = window.location.pathname.replace(/\/$/, '') // Remove trailing slash if present
+
+      // Ensure we are on a /cases/ page before running the script
+      if (!pageSlug.startsWith('/cases/')) return
+
+      // Loop over all elements with class ".home-project_wrap"
+      document.querySelectorAll('.home-project_wrap').forEach((projectWrap) => {
+        const link = projectWrap.querySelector('.link-cover')
+
+        if (link && link.href && link.getAttribute('href') !== '#') {
+          const linkPath = new URL(
+            link.href,
+            window.location.origin
+          ).pathname.replace(/\/$/, '') // Normalize path
+
+          // Check if the link is also within /cases/ and matches the page slug exactly
+          if (linkPath.startsWith('/cases/') && pageSlug === linkPath) {
+            projectWrap.style.display = 'none' // Hide the element
+          }
+        }
+      })
     }
-  })
+  )
 }
 
 export default cases

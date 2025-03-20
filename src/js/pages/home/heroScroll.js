@@ -68,7 +68,7 @@ function heroScroll() {
       })
 
       let childItem = list.children().eq(triggerIndex)
-      tl.to(childItem.find('.hero-scroll_img-overflow'), { scale: 0.6 }, 0)
+      tl.to(childItem.find('.hero-scroll_img-overflow'), { scale: 0.8 }, 0)
       tl.to(childItem.find('.hero-scroll_img-photo'), { scale: 1 }, 0)
     })
 
