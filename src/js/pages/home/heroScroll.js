@@ -98,13 +98,8 @@ function heroScroll() {
       },
     })
 
-    tlBotttom.fromTo('.div-hide.is-bottom-left', { x: '0vw' }, { x: '-30vw' })
-    tlBotttom.fromTo(
-      '.div-hide.is-bottom-right',
-      { x: '0vw' },
-      { x: '30vw' },
-      0
-    )
+    tlBotttom.fromTo('.div-hide.is-bottom-left', { x: '0%' }, { x: '-120%' })
+    tlBotttom.fromTo('.div-hide.is-bottom-right', { x: '0%' }, { x: '120%' }, 0)
 
     // smaller screen sizes
     return () => {
