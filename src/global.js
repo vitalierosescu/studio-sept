@@ -68,24 +68,7 @@ function global() {
     )
   }
 
-  const displayTime = () => {
-    const now = new Date()
-    let hours = now.getHours()
-    let minutes = now.getMinutes()
-
-    minutes = minutes < 10 ? '0' + minutes : minutes
-    const suffix = hours >= 12 ? 'PM' : 'AM'
-    if (hours === 0) {
-      hours = 12 // Midnight case
-    }
-    const timeString = hours + ':' + minutes + ' ' + suffix
-    document
-      .querySelectorAll('[data-time]')
-      .forEach((item) => (item.innerText = timeString))
-  }
-
   const init = () => {
-    setInterval(displayTime, 1000)
     animateFooter()
     nav()
     marqueeServices()

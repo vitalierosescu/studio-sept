@@ -16,7 +16,7 @@ function loadingAnimation() {
   window.addEventListener('resize', () => lenis.resize())
 
   lenis.stop()
-  console.log('hihi')
+  console.log('stopped')
 
   function animateCounter() {
     const counterElement = document.querySelector('.counter p')

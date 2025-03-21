@@ -18,18 +18,6 @@ MouseFollower.registerGSAP(gsap)
 function main() {
   global()
 
-  let $home = document.querySelector('[data-barba-namespace="home"]')
-  let $case = document.querySelector('[data-barba-namespace="case"]')
-  let $overview = document.querySelector('[data-barba-namespace="overview"]')
-
-  if ($home) {
-    home()
-  } else if ($case) {
-    cases()
-  } else if ($overview) {
-    overview()
-  }
-
   const lenis = new Lenis()
 
   lenis.on('scroll', ScrollTrigger.update)
@@ -40,6 +28,20 @@ function main() {
 
   lenis.stop()
   window.addEventListener('resize', () => lenis.resize())
+
+  let $home = document.querySelector('[data-barba-namespace="home"]')
+  let $case = document.querySelector('[data-barba-namespace="case"]')
+  let $overview = document.querySelector('[data-barba-namespace="overview"]')
+
+  if ($home) {
+    lenis.stop()
+    console.log('its home and lenis stop')
+    home()
+  } else if ($case) {
+    cases()
+  } else if ($overview) {
+    overview()
+  }
 
   barba.hooks.after((data) => {
     // lenis.start()
@@ -54,6 +56,8 @@ function main() {
     let $case = document.querySelector('[data-barba-namespace="case"]')
     let $overview = document.querySelector('[data-barba-namespace="overview"]')
     if ($home) {
+      lenis.stop()
+      console.log('its home and lenis stop')
       home()
     } else if ($case) {
       cases()
