@@ -14,6 +14,46 @@ function global() {
   const titles = document.querySelectorAll('.tagline')
   const lines = document.querySelectorAll('.divider')
 
+  let mm = gsap.matchMedia(),
+    breakPoint = 479
+
+  mm.add(
+    {
+      isDesktop: `(min-width: ${breakPoint}px)`,
+      isMobile: `(max-width: ${breakPoint - 1}px)`,
+    },
+    (context) => {
+      let { isDesktop, isMobile, reduceMotion } = context.conditions
+      console.log(isDesktop, isMobile, reduceMotion)
+
+      function animateFooter() {
+        var footerWrap = $('.footer_wrap')
+
+        let tl = gsap.timeline({
+          defaults: {
+            ease: 'none',
+          },
+          scrollTrigger: {
+            trigger: footerWrap,
+            start: 'top bottom',
+            end: 'bottom bottom',
+            scrub: true,
+          },
+        })
+
+        tl.fromTo(
+          footerWrap.find('.footer_component'),
+          {
+            y: '-60vh',
+          },
+          { y: '0vh' }
+        )
+      }
+
+      if (isDesktop) animateFooter()
+    }
+  )
+
   titles.forEach((item) => {
     let tl = gsap.timeline({ paused: true })
     tl.from(
@@ -44,32 +84,7 @@ function global() {
     createScrollTrigger(item, tl, 'top bottom')
   })
 
-  function animateFooter() {
-    var footerWrap = $('.footer_wrap')
-
-    let tl = gsap.timeline({
-      defaults: {
-        ease: 'none',
-      },
-      scrollTrigger: {
-        trigger: footerWrap,
-        start: 'top bottom',
-        end: 'bottom bottom',
-        scrub: true,
-      },
-    })
-
-    tl.fromTo(
-      footerWrap.find('.footer_component'),
-      {
-        y: '-60vh',
-      },
-      { y: '0vh' }
-    )
-  }
-
   const init = () => {
-    animateFooter()
     nav()
     marqueeServices()
     customMouse()

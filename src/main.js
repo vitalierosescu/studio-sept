@@ -2,7 +2,6 @@ import barba from '@barba/core'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
-import MouseFollower from 'mouse-follower'
 
 import global from './global'
 import { resetWebflow } from './js/helpers/resetWebflow'
@@ -13,7 +12,6 @@ import overview from './js/pages/overview'
 import { enterTransition, leaveTransition } from './js/pageTransitions'
 
 gsap.registerPlugin(ScrollTrigger)
-MouseFollower.registerGSAP(gsap)
 
 function main() {
   global()
