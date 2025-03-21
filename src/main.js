@@ -66,6 +66,12 @@ function main() {
 
   barba.hooks.beforeEnter(() => {
     console.log('beforeEnter')
+    // lenis.start()
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true })
+    } else {
+      window.scrollTo(0, 0)
+    }
     lenis.start()
   })
 
